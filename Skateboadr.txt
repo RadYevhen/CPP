@@ -1,0 +1,81 @@
+/*
+Den wants to go throught the road with hills. On each hill he falls. Count how many times Den will falls on the road.
+
+Input file:
+First line - Number N is length of numbers in second line from interval [3;1000]
+Second line - Road is numbers(Ai) from interval [-1000;1000]. Two numbers near each other can't be equal. A1<A2, An-1>An.
+
+Output file:
+Number of falls.
+
+!!! Hill is the number that more with previous and next number. Ai-1<Ai>Ai+1
+
+!Example!
+Input file
+5
+-1 2 7 1 0
+
+Output file
+1
+(only number 7 is more than previous and next numbers - 2<7>1)
+
+*/
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+int main()
+{
+	// Read from file and work with data
+	ifstream inFile;
+	inFile.open("C:\\Users\\ray8wz\\Documents\\Visual Studio 2015\\Projects\\HelloWorld\\sum.in.txt");
+	if (!inFile)
+	{
+		cerr << "Error during reading file!";
+		exit(1);
+	}
+
+	int a, count = 0;
+	inFile >> a;
+	// create array with size from file+1(in file 5, we create 6 to store in index 0 this number)
+	int* arr = new int[a+1]; 
+	arr[count] = a;
+
+	// filled in array with numbers from file
+	while (inFile >> a)
+	{
+		count++;
+		arr[count] = a;
+	}
+	inFile.close();
+
+	// Write data to file
+	ofstream outFile;
+	outFile.open("C:\\Users\\ray8wz\\Documents\\Visual Studio 2015\\Projects\\HelloWorld\\sum.out.txt");
+	if (!outFile)
+	{
+		cerr << "Error during writing to file!";
+		exit(1);
+	}
+
+	outFile.clear();
+	// clear count value to store result
+	count = 0;
+	// Start from 2 index because 0 is length of array, 1 is stars(not exist previous value). 
+	// Finish at penultimate index because last not possible to compare(not exit next value after last)
+	for (int i = 2; i < arr[0]; i++)
+	{
+		// if number in the middle more than previous and next numbers we add 1
+		if (arr[i] > arr[i-1] && arr[i] > arr[i+1])
+		{
+			count++;
+		}
+	}
+	outFile << count;
+	outFile.close();
+
+	cout << "Done" << endl;
+	system("pause");
+	return 0;
+}

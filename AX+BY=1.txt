@@ -1,0 +1,96 @@
+/*
+Write algorithm that will find X and Y in equation - AX + BX = 1
+
+Input file:
+2 numbers: A and B (A >= 1, B <= 100)
+
+Output file:
+2 number: X and Y that will be relevant for the equation AX + BX = 1
+|X| <= 10000, |Y| <= 10000
+If several answers - output any of them, if answer not exist output 0 0.
+
+Example:
+Input
+2 3
+Output
+2 -1
+
+2*2 + 3*(-1) = 4-3 = 1 
+
+Example:
+Input
+4 6
+Output
+0 0
+
+!!!!
+We have to use Euclidean algorithm (NOD) for A and B in our equation.
+Let's imagine that X = 0. We put X to next equation:
+(N - X*A) % B = 0 => where N = R-value(in our case is 1).
+We have to increase X by 1 while we are not received value that can be divided to B without residue.
+Once we got such number we can say what X = to this number and we can count Y:
+Y = (N - X*A) / B.
+If we didn't find such X until max number of operation(in our case is 10000) we have to make X = 0, Y = 0.
+
+Algorithm for 2X + 3Y = 1
+1. i = 0
+1 -(0*2) % 3 = 1%3 != 0
+2. i = 1
+1 -(1*2) % 3 = -1 % 3 != 0
+3. i = 2
+1 -(2*2) % 3 = -3 % 3 = 0
+X = i(2)
+Y = (1 - 2*2)/3 = -3/3 = -1
+*/
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+int main()
+{
+	// Read from file and work with data
+	ifstream inFile;
+	inFile.open("C:\\Users\\ray8wz\\Documents\\Visual Studio 2015\\Projects\\HelloWorld\\sum.in.txt");
+	if (!inFile)
+	{
+		cerr << "Error during reading file!";
+		exit(1);
+	}
+
+	int a, b;
+	int x = 0;
+	int y = 0;
+	int n = 1; // r-value. Result of our equation
+	inFile >> a >> b;
+	
+	for (int i = 0; i <= 10000; i++)
+	{
+		if ((n - a * i) % b == 0)
+		{
+			x = i;
+			y = (n - a * i) / b;
+			break;
+		}
+	}
+
+	inFile.close();
+
+	// Write data to file
+	ofstream outFile;
+	outFile.open("C:\\Users\\ray8wz\\Documents\\Visual Studio 2015\\Projects\\HelloWorld\\sum.out.txt");
+	if (!outFile)
+	{
+		cerr << "Error during writing to file!";
+		exit(1);
+	}
+
+	outFile.clear();
+
+	outFile << x << ' ' << y;
+	outFile.close();
+
+	cout << "Done" << endl;
+	system("pause");
+	return 0;
+}

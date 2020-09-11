@@ -1,0 +1,59 @@
+/*
+Fibonacci numbers:
+(0) 1 1 2 3 5 8 13 21 34 ...
+
+Show number of Fibonacci from the file:
+
+File stores any number: 3
+Show 3rd number from Fibonacci.
+0 - not count. 
+1 - position 0
+1 - position 1
+2 - position 2
+3 - position 3
+Result 3
+*/
+#include <iostream>
+#include <fstream> // library for read/write files
+ 
+using namespace std;
+ 
+int main()
+{
+	// Solution #1
+	long long a, step = 1, fib = 0;
+ 
+	// Read from file and work with data
+	ifstream inFile;
+	inFile.open("fib.in");
+	if (!inFile)
+	{
+		cerr << "Error during reading file!";
+		exit(1);
+	}
+ 
+	inFile >> a;
+	inFile.close();
+ 
+	while ( a >= 0 )
+	{
+		fib += step;
+		step = fib - step;
+		a--;
+	}
+ 
+	// Write data to file
+	ofstream outFile;
+	outFile.open("fib.out");
+	if (!outFile)
+	{
+		cerr << "Error during writing to file!";
+		exit(1);
+	}
+ 
+	outFile.clear();
+	outFile << fib;
+	outFile.close();
+ 
+	return 0;
+}

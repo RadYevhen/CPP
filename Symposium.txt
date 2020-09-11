@@ -1,0 +1,130 @@
+/*
+People very like to attend annual symposium. On symposium have to be maximum possible people from registered list. During symposium all guests seat one side at long table.
+In the registered list people have different rank. People from higher rank don't want to seat near people that have rank lower twice or more.
+Please help organizers invite as many as possible people from the list.
+
+Input file
+First string: Number N - Number of guests in registration list. (1 <= N <= 1000)
+Second string: Ai - Rank of guests. (1 <= Ai <= 10^9)
+
+Output file
+First string: Number K - Number of maximum possible guests that can be invited.
+
+Example 1:
+Input:
+5
+4 5 2 3 10
+
+Output:
+4
+
+Example 2:
+Input:
+5
+4 2 3 10 11
+
+Output:
+3
+*/
+#include <iostream>
+#include <fstream>
+
+using namespace std;
+
+int main()
+{
+	// Read from file and work with data
+	ifstream inFile;
+	inFile.open("C:\\Users\\ray8wz\\Documents\\Visual Studio 2015\\Projects\\HelloWorld\\sum.in.txt");
+	if (!inFile)
+	{
+		cerr << "Error during reading file!";
+		exit(1);
+	}
+
+	long long a; // First number from file - length of array
+	inFile >> a;
+	long long* arr = new long long[a]; // create link to adress of new array with length a
+
+	// Fill in array with numbers from file
+	for (int i = 0; i < a; i++)
+	{
+		inFile >> arr[i];
+	}
+
+	// Sort array with bubble algorithm
+	//bool is_sorted = false;
+	//// contunue while is not sorted
+	//while (is_sorted == false)
+	//{
+	//	// imagine that array is sorted in the beginning
+	//	is_sorted = true;
+	//	for (int i = 0; i < a-1; i++) // doing loop until a-1: because on last step we have to compare last(a) and previous(a-1)
+	//	{
+	//		// if next value > previous => swap
+	//		if (arr[i] > arr[i + 1])
+	//		{
+	//			int tmp = arr[i];
+	//			arr[i] = arr[i + 1];
+	//			arr[i + 1] = tmp;
+	//			is_sorted = false;
+	//		}
+	//	}
+	//}
+
+	for (int i = 0; i < a - 1; i++)
+	{
+		for (int j = 0; j < a - 1 - i; j++) // found last already
+		{
+			if (arr[j] > arr[j + 1])
+			{
+				int tmp = arr[j];
+				arr[j] = arr[j + 1];
+				arr[j + 1] = tmp;
+			}
+		}
+	}
+
+	inFile.close();
+
+	// Write data to file
+	ofstream outFile;
+	outFile.open("C:\\Users\\ray8wz\\Documents\\Visual Studio 2015\\Projects\\HelloWorld\\sum.out.txt");
+	if (!outFile)
+	{
+		cerr << "Error during writing to file!";
+		exit(1);
+	}
+
+	outFile.clear();
+
+	// Find maximum possible sequence of numbers that can be near each other and it will be the answer
+	int count = 1;
+	int result = 0;
+	for (int i = 0; i < a-1; i++)
+	{
+		if (arr[i + 1] / arr[i] < 2)
+		{
+			count++;
+		}
+		else
+		{
+			if (count > result)
+			{
+				result = count;
+			}
+			count = 1;
+		}
+	}
+	if (count > result)
+	{
+		result = count;
+	}
+
+	outFile << result;
+	outFile.close();
+
+	cout << "Done" << endl;
+	system("pause");
+	return 0;
+}
