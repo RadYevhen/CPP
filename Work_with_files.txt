@@ -1,0 +1,51 @@
+#include <iostream>
+#include <fstream> // library for read/write files
+
+using namespace std;
+
+int main()
+{
+	// Solution #1
+	int sum = 0;
+	int x;
+
+	// Read from file and work with data
+	ifstream inFile;
+	inFile.open("C:\\Users\\ray8wz\\Documents\\Visual Studio 2015\\Projects\\HelloWorld\\sum.in.txt");
+	if (!inFile)
+	{
+		cerr << "Error during reading file!";
+		exit(1);
+	}
+
+	while (inFile >> x)
+	{
+		sum += x;
+	}
+
+	inFile.close();
+
+	// Write data to file
+	ofstream outFile;
+	outFile.open("C:\\Users\\ray8wz\\Documents\\Visual Studio 2015\\Projects\\HelloWorld\\sum.out.txt");
+	if (!outFile)
+	{
+		cerr << "Error during writing to file!";
+		exit(1);
+	}
+
+	outFile.clear();
+	outFile << sum;
+	outFile.close();
+
+	// Solution #2
+	/*int a, b;
+	ifstream in("C:\\Users\\ray8wz\\Documents\\Visual Studio 2015\\Projects\\HelloWorld\\sum.in.txt");
+	ofstream out("C:\\Users\\ray8wz\\Documents\\Visual Studio 2015\\Projects\\HelloWorld\\sum.out.txt");
+	in >> a >> b;
+	out << a + b;*/
+
+	cout << "Done" << endl;
+	system("pause");
+	return 0;
+}
