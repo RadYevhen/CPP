@@ -1,0 +1,43 @@
+/*
+Compare current element with next, if current bigger - swap.
+*/
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int N = 10;
+	int arr[] = {2, 7, 3, 9, 1, 44, 15, 13, 42, 2};
+
+	// Output array
+	for (int i = 0; i < N; i++)
+	{
+		cout << arr[i] << '\t';
+	}
+	cout << endl;
+
+	// Sort array with Selection sort
+	for (int pos = 0; pos < N-1; pos++)
+	{
+		for (int i = 0; i < N-pos-1; i++)
+		{
+			if (arr[i] > arr[i+1])
+			{
+				int tepm = arr[i];
+				arr[i] = arr[i+1];
+				arr[i+1] = tepm;
+			}
+		}
+	}
+
+	// Output sorted array
+	for (int i = 0; i < N; i++)
+	{
+		cout << arr[i] << '\t';
+	}
+	cout << endl;
+
+	system("pause");
+    return 0;
+}
