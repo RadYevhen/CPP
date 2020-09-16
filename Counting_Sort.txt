@@ -1,0 +1,50 @@
+/*
+Relevant only for not huge subset of values because complexity can become from O(N) to O(N * M)(where M - subset) can we worst than O(N^2). Not suitable for double.
+1. Count how many times in array exist each values into another "count" array with size M
+2. Change values in array as many time as each value exist in "count" array 
+*/
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int N = 10; // Subset M
+	int arr[10] = {2, 7, 3, 9, 1, 8, 2, 6, 4, 1};
+	int arrCount[10] = { 0 }; // Fill in all elements with 0
+
+	// Output array
+	for (int i = 0; i < N; i++)
+	{
+		cout << arr[i] << '\t';
+	}
+	cout << endl;
+
+	// Sort array with Counting sort
+	// 1. Count how many time each number from subset M exist in arr
+	for (int i = 0; i < N; i++)
+	{
+		arrCount[arr[i]]++; // for each number from arr +1 in arrCount
+	}
+
+	// 2. Put values to arr how many times values exist in arrCount
+	int count = 0; // counter for main array index
+	for (int i = 0; i < N; i++)
+	{
+		for (int j = 0; j < arrCount[i]; j++)
+		{
+			arr[count] = i;
+			count++;
+		}
+	}
+
+	// Output sorted array
+	for (int i = 0; i < N; i++)
+	{
+		cout << arr[i] << '\t';
+	}
+	cout << endl;
+
+	system("pause");
+    return 0;
+}
