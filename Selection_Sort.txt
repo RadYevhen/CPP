@@ -1,0 +1,44 @@
+/*
+Take first element and suppose it the smallest. Compare it with next and if found smaller swap them.
+*/
+
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int N = 10;
+	int arr[] = {2, 7, 3, 9, 1, 44, 15, 13, 42, 2};
+
+	// Output array
+	for (int i = 0; i < N; i++)
+	{
+		cout << arr[i] << '\t';
+	}
+	cout << endl;
+
+	// Sort array with Selection sort
+	for (int pos = 0; pos < N-1; pos++)
+	{
+		for (int i = pos+1; i < N; i++)
+		{
+			if (arr[pos] > arr[i])
+			{
+				int tepm = arr[pos];
+				arr[pos] = arr[i];
+				arr[i] = tepm;
+			}
+		}
+	}
+
+	// Output sorted array
+	for (int i = 0; i < N; i++)
+	{
+		cout << arr[i] << '\t';
+	}
+	cout << endl;
+
+	system("pause");
+    return 0;
+}
