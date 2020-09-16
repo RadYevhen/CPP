@@ -17,7 +17,7 @@ int main()
 	}
 	cout << endl;
 
-	// Sort array with Selection sort
+	// Sort array with Bubble sort
 	for (int pos = 0; pos < N-1; pos++)
 	{
 		for (int i = 0; i < N-pos-1; i++)
