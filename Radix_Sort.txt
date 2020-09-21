@@ -1,7 +1,21 @@
 /*
-Time Complexity - O(M*N); M = log(MAX(A[i]))
-Memory complexity - O(N) 
+Complexity Analysis:
+The complexity is O((n+b)∗logb(maxx)) where b is the base for representing numbers and maxx is the maximum element of the input array. 
+This is clearly visible as we make (n+b) iterations logb(maxx) times (number of digits in the maximum element) . 
+If maxx≤n^c,then the complexity can be written as O(n∗logb(n)).
 
+Advantages :
+1. Fast when the keys are short i.e. when the range of the array elements is less.
+2. Used in suffix array constuction algorithms like Manber's algorithm and DC3 algorithm.
+
+Disadvantages:
+1. Since Radix Sort depends on digits or letters, Radix Sort is much less flexible than other sorts. Hence , for every different type of data it needs to be rewritten.
+2. The constant for Radix sort is greater compared to other sorting algorithms.
+3. It takes more space compared to Quicksort which is inplace sorting.
+
+The Radix Sort algorithm is an important sorting algorithm that is integral to suffix -array construction algorithms. It is also useful on parallel machines.
+
+______________________________________________
 Like counting sort but we count for radix(1, 10, 100 ...) to countArray(always 10 for int - [0...9]) and write sorted result to tempArray.
 
 1. 
