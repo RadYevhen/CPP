@@ -1,4 +1,6 @@
 /*
+In worst case,each element is compared with all the other elements in the sorted array. For N elements, there will be N2 comparisons. Therefore, the time complexity is O(N^2)
+
 Start from 1 element and continue for all other in the array: compare current with previous. If current less than previuos - swap
 */
 #include <iostream>
