@@ -1,5 +1,8 @@
 /*
-Relevant only for not huge subset of values because complexity can become from O(N) to O(N * M)(where M - subset) can we worst than O(N^2). Not suitable for double.
+The array A is traversed in O(N) time and the resulting sorted array is also computed in O(N) time. 
+Aux[] is traversed in O(M) time. Therefore, the overall time complexity of counting sort algorithm is O(N+M).
+
+Relevant only for not huge subset of values because complexity can become from O(N+M) to O(N * M)(where M - subset) can we worst than O(N^2). Not suitable for double.
 1. Count how many times in array exist each values into another "count" array with size M
 2. Change values in array as many time as each value exist in "count" array 
 */
