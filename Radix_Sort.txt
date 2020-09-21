@@ -1,0 +1,106 @@
+/*
+Time Complexity - O(M*N); M = log(MAX(A[i]))
+Memory complexity - O(N) 
+
+Like counting sort but we count for radix(1, 10, 100 ...) to countArray(always 10 for int - [0...9]) and write sorted result to tempArray.
+
+1. 
+N = 6
+A = 7, 12, 1, 11, 3, 0
+radix 1 - check last digit in number
+countA = 1, 2, 1, 1, 0, 0, 0, 1, 0, 0
+add to countArray previous number to store max possible index for number(from 1 because A[-1] not exist)
+countA = 1, 3, 4, 5, 5, 5, 5, 6, 6, 6
+For each number from A[i](start from last number, i = n-1) find index:
+- (0/1(current radix))%10 = 0; countA[0] = 1; tempA[countA[0] - 1] = tempA[1 - 1]; tempA[0] = A[i]; countA[0]--;
+tempA = 0, ..., ..., ..., ..., ...;
+countA = 0, 3, 4, 5, 5, 5, 5, 6, 6, 6
+- (3/1)%10 = 3; countA[3] = 5; tempA[countA[3] - 1] = tempA[5 - 1]; tempA[4] = A[i]; countA[3]--;
+tempA = 0, ..., ..., ..., 3, ..., ...;
+countA = 0, 3, 4, 4, 5, 5, 5, 6, 6, 6
+...
+...
+...
+tempA = 0, 1, 11, 12, 3, 7
+A = tempA
+
+2. repeate the same for radix 10(1 *= 10; for next digit)
+A = 0, 1, 3, 7, 11, 12 
+*/
+#include <iostream>
+
+using namespace std;
+
+int main()
+{
+	int n = 6;
+	int A[6] = { 7, 12, 1, 11, 0, 3 };
+	int maxNumber = 0;
+
+	// Output not sorted array
+	for (int i = 0; i < n; i++)
+	{
+		cout << A[i] << '\t';
+	}
+	cout << endl;
+
+	// Find max value in array and create Count array
+	for (int i = 0; i < n; i++)
+	{
+		if (A[i] > maxNumber )
+		{
+			maxNumber = A[i];
+		}
+	}
+
+	int countA[10] = { 0 }; // Array with counting filled in with 0; always 10 for integers because numbers can be in range [0,9]
+	int radix = 1; // radix that we take in the number(1, 10, 100, 1000 ...)
+
+	while (maxNumber > 0)
+	{
+		// Reset values in countA to 0
+		for (int i = 0; i < 10; i++)
+		{
+			countA[i] = 0;
+		}
+		// Count radix
+		for (int i = 0; i < n; i++)
+		{
+			countA[(A[i] / radix) % 10]++;
+		}
+		// Add to all redix(from 1) previous. For 0 not needed because A[-1] not exist(0):
+		// For this step numbers from 0-9 will be sort assending and imagine that last number in countA will be last in A
+		for (int i = 1; i < 10; i++)
+		{
+			countA[i] += countA[i - 1];
+		}
+		// Store sorted result for current redix in tempA: start from the last number in A
+		int tempA[6] = { 0 };
+		for (int i = n-1; i >= 0; i--)
+		{
+			tempA[ countA[ (A[i]/radix) % 10] - 1 ] = A[i]; //take index from countA: for curr number from A take digit by radix and MOD for 10 and reduce by 1 - it will show correct index to store in tempA
+			countA[ (A[i]/radix) % 10 ]--; // reduce value from countA by 1: it gives us correct index for tempA on next step(not possible to overwrite value in same index next time)
+		}
+
+		// copy tempA to A
+		for (int i = 0; i < n; i++)
+		{
+			A[i] = tempA[i];
+		}
+
+		// Take next radix
+		radix *= 10;
+		// Devide number to 10 to take next number 
+		maxNumber /= 10;
+	}
+
+	// Output sorted array
+	for (int i = 0; i < n; i++)
+	{
+		cout << A[i] << '\t';
+	}
+
+	cout << endl;
+	system("pause");
+    return 0;
+}
