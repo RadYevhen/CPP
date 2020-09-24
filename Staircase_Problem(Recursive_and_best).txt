@@ -1,0 +1,48 @@
+/*
+Count number of possible ways to reach stair. N - stair that has to be reached. From each stair we can go on next and through one.(From pre last only on last)
+*/
+#include <iostream>
+
+using namespace std;
+
+int numStepsRecursion(int n)
+{
+	if (n == 0 || n == 1) { return 1; }
+	
+	return numStepsRecursion(n - 2) + numStepsRecursion(n - 1);
+}
+
+int numSteps(int n)
+{
+	if (n == 0 || n == 1) { return 1; }
+
+	int result;
+	int A[2]; // Doesn't need to store array with N length, 2 always enought
+	A[0] = 1;
+	A[1] = 1;
+
+	for (int i = 2; i <= n; i++)
+	{
+		result = A[0] + A[1];
+		A[0] = A[1];
+		A[1] = result;
+	}
+
+	return result;
+}
+
+int main()
+{
+	// Recursion function not the best because function calls itself many times for same numbers: 
+	// f(4)->F(2)+f(3); f(2)->f(0)+f(1) AND f(3)->f(1)+f(2) but we already called f(1) and f(2). As many N - The more N, the more identical function calls
+	int resultRecursion = numStepsRecursion(3);
+
+	// Best practice because we call function 1 time and use inside array with length = 2
+	int result = numSteps(3);
+
+	cout << "Recursion result: " << resultRecursion << endl;
+	cout << "Best practice: " << result << endl;
+	
+	system("pause");
+    return 0;
+}
