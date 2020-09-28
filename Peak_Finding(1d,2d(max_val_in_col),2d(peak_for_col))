@@ -22,11 +22,11 @@ int Peak1d(int A[], int min, int max, int len)
 	}
 
 	if (A[middle] > A[middle-1] && A[middle] > A[middle + 1]) { return A[middle]; }
-	else if (A[middle - 1] > A[middle])
+	else if (A[middle - 1] >= A[middle])
 	{
 		return Peak1d(A, min, middle-1, len);
 	}
-	else if (A[middle + 1] > A[middle])
+	else if (A[middle + 1] >= A[middle])
 	{
 		return Peak1d(A, middle+1, max, len);
 	}
