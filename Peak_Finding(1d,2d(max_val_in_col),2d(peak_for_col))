@@ -1,0 +1,151 @@
+#include <iostream>
+
+using namespace std;
+
+//----------> 1d - O(log n)
+int Peak1d(int A[], int min, int max, int len)
+{
+	if (len == 1) { return A[0]; }
+
+	// Middle of array
+	int middle = min + (max - min) / 2;
+	// Find peak for first and last elements
+	if (middle == 0)
+	{
+		if (A[middle] > A[middle + 1]) { return A[middle]; }
+		else { return A[middle + 1]; }
+	}
+	else if (middle == len - 1)
+	{
+		if (A[middle] > A[middle - 1]) { return A[middle]; }
+		else { return A[middle - 1]; }
+	}
+
+	if (A[middle] > A[middle-1] && A[middle] > A[middle + 1]) { return A[middle]; }
+	else if (A[middle - 1] > A[middle])
+	{
+		return Peak1d(A, min, middle-1, len);
+	}
+	else if (A[middle + 1] > A[middle])
+	{
+		return Peak1d(A, middle+1, max, len);
+	}
+}
+//<---------- 1d
+//----------> 2d max value in column - O(n*log m)
+int Peak2d(int A[][5], int rows, int cols, int midCol)
+{
+	// Find max in the column
+	int max = 0;
+	int max_index;
+	for (int i = 0; i < rows; i++)
+	{
+		if (A[i][midCol] > max)
+		{
+			max = A[i][midCol];
+			max_index = i;
+		}
+	}
+
+	// If first or last column - max is a peak
+	if (midCol == 0 || midCol == cols - 1)
+	{
+		return max;
+	}
+
+	// Check prev and next values in a row
+	if (max > A[max_index][midCol - 1] && max > A[max_index][midCol + 1])
+	{
+		return max;
+	}
+	else if (max <= A[max_index][midCol - 1])
+	{
+		return Peak2d(A, rows, cols, midCol / 2);
+	}
+	else if (max <= A[max_index][midCol + 1])
+	{
+		return Peak2d(A, rows, cols, midCol + midCol / 2);
+	}
+}
+//<---------- 2d max value in column - O(n*log m)
+//----------> 2d best - O(log n*log m)
+int Peak1d_for2dBest(int A[][5], int min, int max, int len, int col)
+{
+	if (len == 1) { return 0; }
+
+	// Middle column
+	int middle = min + (max - min) / 2;
+	// Find peak for first and last elements
+	if (middle == 0)
+	{
+		if (A[middle][col] > A[middle + 1][col]) { return middle; }
+		else { return middle + 1; }
+	}
+	else if (middle == len - 1)
+	{
+		if (A[middle][col] > A[middle - 1][col]) { return middle; }
+		else { return middle - 1; }
+	}
+
+	if (A[middle][col] > A[middle - 1][col] && A[middle][col] > A[middle + 1][col]) { return middle; }
+	else if (A[middle - 1][col] > A[middle][col])
+	{
+		return Peak1d_for2dBest(A, min, middle - 1, len, col);
+	}
+	else if (A[middle + 1] > A[middle])
+	{
+		return Peak1d_for2dBest(A, middle + 1, max, len, col);
+	}
+}
+int Peak2dBest(int A[][5], int rows, int cols, int midCol)
+{
+	// Find peak in the column
+	int max_index = Peak1d_for2dBest(A, 0, rows, rows, midCol);
+
+	// If first or last column - max is a peak
+	if (midCol == 0 || midCol == cols - 1)
+	{
+		return A[max_index][midCol];
+	}
+
+	// Check prev and next values in a row
+	if (A[max_index][midCol] > A[max_index][midCol - 1] && A[max_index][midCol] > A[max_index][midCol + 1])
+	{
+		return A[max_index][midCol];
+	}
+	else if (A[max_index][midCol] <= A[max_index][midCol - 1])
+	{
+		return Peak2d(A, rows, cols, midCol / 2);
+	}
+	else if (A[max_index][midCol] <= A[max_index][midCol + 1])
+	{
+		return Peak2d(A, rows, cols, midCol + midCol / 2);
+	}
+}
+//<---------- 2d best - O(log n*log m)
+int main()
+{
+	// 1d peak
+	int A[] = {1, 2, 3, 9, 8, 6, 7};
+	int len = sizeof(A) / sizeof(A[0]); // sizeof(A) - bytes of all array, sizeof(A[0]) - bytes for 1 element of array. 1 array element = 4 bytes. Ex: A[6], len = 24(6*4) / 4 = 6
+	cout << "Peak of array: " << Peak1d(A, 0, len - 1, len) << endl;
+
+	// 2d peak - counting max logic (n * log m)
+	int row = 5;
+	int col = 5;
+	int midCol = col / 2;
+	int A2[5][5] = { { 1,  2,  3,  4, 5 },
+					 { 5,  4,  3,  2, 1 },
+					 { 5,  4,  4,  0, 1 },
+					 { 45, 20, 7,  9, 10 },
+					 { 44, 43, 40, 8, 15 }
+				   };
+	cout << "Peak of 2d array(counting Max in column logic): " << Peak2d(A2, row, col, midCol) << endl;
+
+	// 2d peak - finding peak in column (log n * log m)
+	cout << "Peak of 2d array(finding peak in column): " << Peak2dBest(A2, row, col, midCol) << endl;
+
+	cout << endl;
+	system("pause");
+    return 0;
+}
