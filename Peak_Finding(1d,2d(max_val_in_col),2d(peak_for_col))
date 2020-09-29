@@ -115,18 +115,18 @@ int Peak2dBest(int A[][5], int rows, int cols, int midCol)
 	}
 	else if (A[max_index][midCol] <= A[max_index][midCol - 1])
 	{
-		return Peak2d(A, rows, cols, midCol / 2);
+		return Peak2dBest(A, rows, cols, midCol / 2);
 	}
 	else if (A[max_index][midCol] <= A[max_index][midCol + 1])
 	{
-		return Peak2d(A, rows, cols, midCol + midCol / 2);
+		return Peak2dBest(A, rows, cols, midCol + midCol / 2);
 	}
 }
 //<---------- 2d best - O(log n*log m)
 int main()
 {
 	// 1d peak
-	int A[] = {1, 2, 3, 9, 8, 6, 7};
+	int A[] = {21, 17, 9, 9, 10, 6, 7};
 	int len = sizeof(A) / sizeof(A[0]); // sizeof(A) - bytes of all array, sizeof(A[0]) - bytes for 1 element of array. 1 array element = 4 bytes. Ex: A[6], len = 24(6*4) / 4 = 6
 	cout << "Peak of array: " << Peak1d(A, 0, len - 1, len) << endl;
 
@@ -134,11 +134,11 @@ int main()
 	int row = 5;
 	int col = 5;
 	int midCol = col / 2;
-	int A2[5][5] = { { 1,  2,  3,  4, 5 },
-					 { 5,  4,  3,  2, 1 },
-					 { 5,  4,  4,  0, 1 },
-					 { 45, 20, 7,  9, 10 },
-					 { 44, 43, 40, 8, 15 }
+	int A2[5][5] = { { 1, 2, 0, 0, 0 },
+					 { 2, 1, 2, 0, 0 },
+					 { 3, 4, 1, 0, 0 },
+					 { 4, 5, 0, 0, 0 },
+					 { 5, 6, 7, 0, 0 }
 				   };
 	cout << "Peak of 2d array(counting Max in column logic): " << Peak2d(A2, row, col, midCol) << endl;
 
