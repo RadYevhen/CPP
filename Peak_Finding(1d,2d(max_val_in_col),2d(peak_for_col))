@@ -3,7 +3,7 @@
 using namespace std;
 
 //----------> 1d - O(log n)
-int Peak1d(int A[], int min, int max, int len)
+/*int Peak1d(int A[], int min, int max, int len)
 {
 	if (len == 1) { return A[0]; }
 
@@ -30,6 +30,24 @@ int Peak1d(int A[], int min, int max, int len)
 	{
 		return Peak1d(A, middle+1, max, len);
 	}
+}*/
+template <typename T>
+T Peak1d(T begin, T end)
+{
+	auto const length = end - begin;
+	auto const middle = begin + length / 2;
+
+	return
+		// Only 1 element in array
+		length < 2
+		? begin
+
+		// When previous more than current
+		: *(middle - 1) > *middle
+		? Peak1d(begin, middle)
+
+		// When next more than current
+		: Peak1d(middle, end);
 }
 //<---------- 1d
 //----------> 2d max value in column - O(n*log m)
